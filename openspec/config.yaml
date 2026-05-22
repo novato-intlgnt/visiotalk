@@ -1,0 +1,116 @@
+schema: spec-driven
+
+context: |
+  # VisioTalk — DSL Compiler for Real-Time Visual Assistance
+
+  VisioTalk is a DSL-based ecosystem that helps visually impaired users navigate
+  their environment. Users write declarative `.vt` files specifying what objects
+  to detect and what audio alerts to trigger. The compiler transpiles those files
+  into optimized runtimes for desktop (Python) and mobile (JS/React Native).
+
+  ## Tech Stack
+
+  ### Compiler Core (Rust workspace)
+  - **Language:** Rust (latest stable)
+  - **Lexer:** `logos` (DFA-based tokenizer)
+  - **Parser:** `lalrpop` (LR(1) parser generator)
+  - **Templates:** `askama` (type-safe code generation)
+  - **CLI:** `clap` (derive mode)
+  - **Error reporting:** `ariadne`
+  - **Testing:** `cargo test` + `insta` (snapshot testing)
+  - **Lint/format:** `clippy` + `rustfmt`
+  - **Cross-compilation:** `cargo-ndk` (Android .so)
+  - **Python FFI:** `pyo3` + `maturin`
+
+  ### Runtime Desktop (Python)
+  - **Python:** 3.11+
+  - **Package manager:** `uv`
+  - **Camera:** OpenCV (`opencv-python`)
+  - **Inference:** ONNX Runtime (hardware-agnostic: CUDA/OpenVINO auto-detection)
+  - **Model:** YOLOv8-nano (exported to ONNX)
+  - **TTS:** `pyttsx3` + `espeak-ng` (non-blocking, offline)
+  - **Concurrency:** `threading` + `asyncio`
+  - **Lint/type-check:** `ruff` + `mypy`
+
+  ### Runtime Mobile (React Native + Android)
+  - **Framework:** React Native 0.74+
+  - **Language:** TypeScript 5.4+
+  - **Camera:** `react-native-vision-camera` v4
+  - **Inference:** TensorFlow Lite (via native module/JNI)
+  - **Model:** YOLOv8-nano (exported to TFLite FP16)
+  - **TTS:** `react-native-tts`
+  - **Storage:** `@react-native-async-storage/async-storage` + `react-native-fs`
+  - **Navigation:** `@react-navigation/native` v6
+  - **Compiler integration:** Rust core compiled to .so via cargo-ndk, exposed via TurboModules (JSI)
+
+  ## Architecture
+
+  ```
+  .vt file → [Lexer → Parser → Semantics → Codegen] → .py / .js
+                                      │
+                          AST (vt-core, agnostic to backend)
+  ```
+
+  Compiler phases:
+  1. **Lexer** (`vt-lexer`): Tokenization (logos)
+  2. **Parser** (`vt-parser`): AST construction (lalrpop)
+  3. **Semantics** (`vt-semantics`): Validation (labels, ranges, priorities)
+  4. **Codegen** (`vt-codegen`): Template-based emission (askama)
+
+  Safety guarantees:
+  - Purely declarative DSL (no loops, no external calls)
+  - Semantic validation blocks invalid configs before execution
+  - Rejects: negative distances, unknown YOLO labels, priority collisions
+
+  ## Monorepo Structure
+
+  ```
+  visioTalk/
+  ├── Cargo.toml                  # Rust workspace root
+  ├── crates/
+  │   ├── vt-core/                # AST types (shared)
+  │   ├── vt-lexer/               # Tokenizer (logos)
+  │   ├── vt-parser/              # Parser (lalrpop grammar)
+  │   ├── vt-semantics/           # Semantic analyzer
+  │   ├── vt-codegen/             # Code generators (Python + JS)
+  │   └── vt-cli/                 # CLI entry point
+  ├── runtime-desktop/            # Python runtime (uv + ONNX + OpenCV)
+  ├── runtime-mobile/             # React Native app (Android)
+  ├── models/                     # AI models (ONNX, TFLite — gitignored)
+  ├── docs/                       # PRD, tech stack, implementation plan
+  └── openspec/                   # Spec-driven development artifacts
+  ```
+
+  ## Conventions
+
+  - **Commits:** conventional commits with scope — `type(scope): description`
+    Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`, `build`, `ci`
+    Scopes: crate name (`vt-lexer`, `vt-parser`, `vt-core`, `vt-semantics`,
+    `vt-codegen`, `vt-cli`), `runtime-desktop`, `runtime-mobile`, `docs`,
+    `openspec`, `models`
+  - **Branch naming:** kebab-case feature branches
+  - **Rust:** `cargo fmt` + `cargo clippy -- -D warnings` before commit
+  - **Python:** `ruff check . && mypy src/` before commit
+  - **React Native:** ESLint + Prettier, TypeScript strict mode
+  - **Testing required** for all compiler phases (snapshot tests for AST outputs)
+  - **No dead code:** unused `pub` items are warnings
+  - **Error messages:** always include file location (line/col) and suggestion
+
+  ## Current Phase
+
+  Phase 1 (scaffolding) is complete. Phase 2 (lexer + parser) is next.
+  See `docs/IMPLEMENTATION_PLAN.md` for full phase breakdown.
+
+rules:
+  proposal:
+    - Keep proposals focused on ONE compiler phase or ONE runtime module
+    - Always reference the relevant section of docs/PRD.md for scope
+    - Architecture diagrams are optional but encouraged for multi-crate changes
+  design:
+    - CRITICAL: All new compiler code must be in the correct crate (vt-lexer, vt-parser, etc.) — never mix concerns
+    - New crates require workspace membership in root Cargo.toml
+    - Runtime changes must not break the existing monorepo boundaries
+  tasks:
+    - Break tasks into maximum 2-hour chunks
+    - Compiler tasks must include snapshot test updates
+    - Every task must specify which crate/directory it touches

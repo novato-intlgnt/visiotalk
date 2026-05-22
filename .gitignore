@@ -29,4 +29,6 @@ Thumbs.db
 
 # Dev tool caches
 .codegraph/
-.antigravitycli/
+
+# Sisyphus session plans
+.sisyphus/
