@@ -10,5 +10,8 @@ vt-core = { path = "../vt-core" }
 vt-lexer = { path = "../vt-lexer" }
 lalrpop-util = { workspace = true }
 
+[dev-dependencies]
+insta = { workspace = true }
+
 [build-dependencies]
 lalrpop = { workspace = true }

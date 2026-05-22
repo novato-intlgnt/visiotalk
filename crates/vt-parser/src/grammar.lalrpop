@@ -1,0 +1,78 @@
+// VisioTalk grammar — LALRPOP LR(1) parser
+// Maps vt_lexer::Token stream to vt_core::Program AST
+
+use vt_core::*;
+use vt_lexer::Token;
+
+grammar;
+
+extern {
+    type Location = usize;
+    type Error = ();
+
+    enum Token {
+        "MODO" => Token::KwModo,
+        "DETECTAR" => Token::KwDetectar,
+        "{" => Token::LBrace,
+        "}" => Token::RBrace,
+        ":" => Token::Colon,
+        "<" => Token::Lt,
+        ">" => Token::Gt,
+        "<=" => Token::Le,
+        ">=" => Token::Ge,
+        "==" => Token::Eq,
+        "m" => Token::UnitMeters,
+        "cm" => Token::UnitCentimeters,
+        "ft" => Token::UnitFeet,
+        "px" => Token::UnitPixels,
+        "Ident" => Token::Ident(<String>),
+        "NumberLit" => Token::NumberLit(<f64>),
+        "StringLit" => Token::StringLit(<String>),
+    }
+}
+
+// ─── Helpers ───────────────────────────────────────────────────────────────
+
+Comparator: Comparator = {
+    "<" => Comparator::Lt,
+    ">" => Comparator::Gt,
+    "<=" => Comparator::Le,
+    ">=" => Comparator::Ge,
+    "==" => Comparator::Eq,
+};
+
+Unit: Unit = {
+    "m" => Unit::Meters,
+    "cm" => Unit::Centimeters,
+    "ft" => Unit::Feet,
+    "px" => Unit::Pixels,
+};
+
+// ─── Attribute (first-token dispatch: Comparator→distance, StringLit→alert, NumberLit→priority)
+// Key-type validation deferred to parse() wrapper for cleaner grammar.
+
+Attribute: Attribute = {
+    "Ident" ":" <c:Comparator> <v:"NumberLit"> <u:Unit> =>
+        Attribute::Distance(DistanceExpr { comparator: c, value: v, unit: u }),
+    "Ident" ":" <s:"StringLit"> =>
+        Attribute::Alert(s),
+    "Ident" ":" <n:"NumberLit"> =>
+        Attribute::Priority(n as u32),
+};
+
+// ─── Rules ─────────────────────────────────────────────────────────────────
+
+ModeDecl: ModeDecl = {
+    "MODO" <name:"Ident"> => ModeDecl { name },
+};
+
+DetectRule: DetectRule = {
+    "DETECTAR" <label:"Ident"> "{" <attrs:(<Attribute>)*> "}" =>
+        DetectRule { label, attributes: attrs },
+};
+
+// ─── Program (entry point) ─────────────────────────────────────────────────
+
+pub Program: Program = {
+    <mode:ModeDecl?> <rules:DetectRule+> => Program { mode, rules },
+};

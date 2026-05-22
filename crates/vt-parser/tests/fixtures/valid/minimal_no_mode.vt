@@ -1,0 +1,5 @@
+DETECTAR persona {
+    distancia: < 2.0m
+    alerta: "Alerta simple"
+    prioridad: 1
+}

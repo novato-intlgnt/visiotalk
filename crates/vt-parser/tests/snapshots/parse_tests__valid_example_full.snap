@@ -1,0 +1,68 @@
+---
+source: crates/vt-parser/tests/parse_tests.rs
+assertion_line: 10
+expression: result.unwrap()
+---
+Program {
+    mode: Some(
+        ModeDecl {
+            name: "navegacion_urbana",
+        },
+    ),
+    rules: [
+        DetectRule {
+            label: "persona",
+            attributes: [
+                Distance(
+                    DistanceExpr {
+                        comparator: Lt,
+                        value: 2.0,
+                        unit: Meters,
+                    },
+                ),
+                Alert(
+                    "Persona cercana a tu derecha",
+                ),
+                Priority(
+                    2,
+                ),
+            ],
+        },
+        DetectRule {
+            label: "vehiculo",
+            attributes: [
+                Distance(
+                    DistanceExpr {
+                        comparator: Lt,
+                        value: 5.0,
+                        unit: Meters,
+                    },
+                ),
+                Alert(
+                    "Vehículo detectado",
+                ),
+                Priority(
+                    1,
+                ),
+            ],
+        },
+        DetectRule {
+            label: "obstaculo_bajo",
+            attributes: [
+                Distance(
+                    DistanceExpr {
+                        comparator: Lt,
+                        value: 1.0,
+                        unit: Meters,
+                    },
+                ),
+                Alert(
+                    "Obstáculo en el suelo",
+                ),
+                Priority(
+                    3,
+                ),
+            ],
+        },
+    ],
+}

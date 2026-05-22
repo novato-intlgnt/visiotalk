@@ -1,0 +1,19 @@
+MODO navegacion_urbana
+
+DETECTAR persona {
+    distancia: < 2.0m
+    alerta: "Persona cercana a tu derecha"
+    prioridad: 2
+}
+
+DETECTAR vehiculo {
+    distancia: < 5.0m
+    alerta: "Vehículo detectado"
+    prioridad: 1
+}
+
+DETECTAR obstaculo_bajo {
+    distancia: < 1.0m
+    alerta: "Obstáculo en el suelo"
+    prioridad: 3
+}

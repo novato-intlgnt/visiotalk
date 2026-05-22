@@ -1,0 +1,4 @@
+DETECTAR obj1 { distancia: < 1.0m  alerta: "meters"       prioridad: 1 }
+DETECTAR obj2 { distancia: < 100cm alerta: "centimeters"  prioridad: 1 }
+DETECTAR obj3 { distancia: < 3.0ft alerta: "feet"         prioridad: 1 }
+DETECTAR obj4 { distancia: < 500px alerta: "pixels"       prioridad: 1 }

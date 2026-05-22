@@ -1,0 +1,5 @@
+DETECTAR obj1 { distancia: < 1.0m  alerta: "lt"  prioridad: 1 }
+DETECTAR obj2 { distancia: > 1.0m  alerta: "gt"  prioridad: 1 }
+DETECTAR obj3 { distancia: <= 1.0m alerta: "le"  prioridad: 1 }
+DETECTAR obj4 { distancia: >= 1.0m alerta: "ge"  prioridad: 1 }
+DETECTAR obj5 { distancia: == 1.0m alerta: "eq"  prioridad: 1 }

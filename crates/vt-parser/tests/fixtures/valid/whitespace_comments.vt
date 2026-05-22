@@ -1,0 +1,16 @@
+// Este archivo tiene muchos espacios y comentarios
+MODO  modo_con_espacios   // modo comentado
+
+// Regla con comentario arriba
+DETECTAR persona {  // detectar persona
+    distancia: < 2.0m   // distancia maxima
+    alerta: "Persona cercana"  // mensaje de alerta
+    prioridad: 2   // prioridad media
+}
+
+// Otra regla
+DETECTAR vehiculo {
+    distancia: < 5.0m
+    alerta: "Vehiculo detectado"
+    prioridad: 1
+}
