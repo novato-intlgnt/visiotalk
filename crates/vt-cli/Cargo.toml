@@ -10,7 +10,11 @@ path = "src/main.rs"
 
 [dependencies]
 vt-core = { path = "../vt-core" }
+vt-lexer = { path = "../vt-lexer" }
 vt-parser = { path = "../vt-parser" }
 vt-semantics = { path = "../vt-semantics" }
 vt-codegen = { path = "../vt-codegen" }
 clap = { workspace = true }
+
+[dev-dependencies]
+insta = { workspace = true }

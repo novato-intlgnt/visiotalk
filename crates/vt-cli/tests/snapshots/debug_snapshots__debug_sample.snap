@@ -1,0 +1,41 @@
+---
+source: crates/vt-cli/tests/debug_snapshots.rs
+assertion_line: 27
+expression: "run_vt_debug(\"sample.vt\")"
+---
+=== FASE 1: CÓDIGO FUENTE (tests/fixtures/sample.vt) ===
+MODO movilidad
+
+DETECTAR persona {
+    distancia: < 2.0m
+    alerta: "Persona cercana a tu derecha"
+    prioridad: 1
+}
+
+
+=== FASE 2: TOKENS (17 tokens) ===
+  1: KwModo           MODO
+  2: Ident            movilidad
+  3: KwDetectar       DETECTAR
+  4: Ident            persona
+  5: LBrace           {
+  6: Ident            distancia
+  7: Colon            :
+  8: Lt               <
+  9: NumberLit        2
+ 10: UnitMeters       m
+ 11: Ident            alerta
+ 12: Colon            :
+ 13: StringLit        "Persona cercana a tu derecha"
+ 14: Ident            prioridad
+ 15: Colon            :
+ 16: NumberLit        1
+ 17: RBrace           }
+
+=== FASE 3: AST ===
+Program
+├── ModeDecl: "movilidad"
+└── Rule[0]: DETECTAR "persona"
+    ├── Distance: < 2 m
+    ├── Alert: "Persona cercana a tu derecha"
+    └── Priority: 1

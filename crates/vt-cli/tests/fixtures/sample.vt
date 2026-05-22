@@ -1,0 +1,7 @@
+MODO movilidad
+
+DETECTAR persona {
+    distancia: < 2.0m
+    alerta: "Persona cercana a tu derecha"
+    prioridad: 1
+}

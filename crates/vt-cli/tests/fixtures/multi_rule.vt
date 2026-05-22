@@ -1,0 +1,16 @@
+DETECTAR coche {
+    distancia: >= 10.5m
+    alerta: "Coche aproximándose"
+    prioridad: 5
+}
+
+DETECTAR bicicleta {
+    distancia: <= 3.0cm
+    prioridad: 2
+}
+
+DETECTAR semaforo {
+    alerta: "Semáforo en verde"
+    distancia: == 0.0px
+    prioridad: 3
+}

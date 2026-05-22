@@ -1,0 +1,9 @@
+---
+source: crates/vt-cli/tests/debug_snapshots.rs
+assertion_line: 32
+expression: "run_vt_debug(\"empty.vt\")"
+---
+=== FASE 1: CÓDIGO FUENTE (tests/fixtures/empty.vt) ===
+
+
+=== FASE 2: TOKENS (0 tokens) ===

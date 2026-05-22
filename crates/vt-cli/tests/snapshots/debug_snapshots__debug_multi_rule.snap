@@ -1,0 +1,81 @@
+---
+source: crates/vt-cli/tests/debug_snapshots.rs
+assertion_line: 37
+expression: "run_vt_debug(\"multi_rule.vt\")"
+---
+=== FASE 1: CÓDIGO FUENTE (tests/fixtures/multi_rule.vt) ===
+DETECTAR coche {
+    distancia: >= 10.5m
+    alerta: "Coche aproximándose"
+    prioridad: 5
+}
+
+DETECTAR bicicleta {
+    distancia: <= 3.0cm
+    prioridad: 2
+}
+
+DETECTAR semaforo {
+    alerta: "Semáforo en verde"
+    distancia: == 0.0px
+    prioridad: 3
+}
+
+
+=== FASE 2: TOKENS (42 tokens) ===
+  1: KwDetectar       DETECTAR
+  2: Ident            coche
+  3: LBrace           {
+  4: Ident            distancia
+  5: Colon            :
+  6: Ge               >=
+  7: NumberLit        10.5
+  8: UnitMeters       m
+  9: Ident            alerta
+ 10: Colon            :
+ 11: StringLit        "Coche aproximándose"
+ 12: Ident            prioridad
+ 13: Colon            :
+ 14: NumberLit        5
+ 15: RBrace           }
+ 16: KwDetectar       DETECTAR
+ 17: Ident            bicicleta
+ 18: LBrace           {
+ 19: Ident            distancia
+ 20: Colon            :
+ 21: Le               <=
+ 22: NumberLit        3
+ 23: UnitCentimeters  cm
+ 24: Ident            prioridad
+ 25: Colon            :
+ 26: NumberLit        2
+ 27: RBrace           }
+ 28: KwDetectar       DETECTAR
+ 29: Ident            semaforo
+ 30: LBrace           {
+ 31: Ident            alerta
+ 32: Colon            :
+ 33: StringLit        "Semáforo en verde"
+ 34: Ident            distancia
+ 35: Colon            :
+ 36: Eq               ==
+ 37: NumberLit        0
+ 38: UnitPixels       px
+ 39: Ident            prioridad
+ 40: Colon            :
+ 41: NumberLit        3
+ 42: RBrace           }
+
+=== FASE 3: AST ===
+Program
+├── Rule[0]: DETECTAR "coche"
+│   ├── Distance: >= 10.5 m
+│   ├── Alert: "Coche aproximándose"
+│   └── Priority: 5
+├── Rule[1]: DETECTAR "bicicleta"
+│   ├── Distance: <= 3 cm
+│   └── Priority: 2
+└── Rule[2]: DETECTAR "semaforo"
+    ├── Alert: "Semáforo en verde"
+    ├── Distance: == 0 px
+    └── Priority: 3
