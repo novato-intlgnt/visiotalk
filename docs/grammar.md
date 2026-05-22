@@ -1,10 +1,5 @@
 # Gramática Formal del DSL VisioTalk (EBNF)
 
-**Versión:** 1.0  
-**Fecha:** 2026-05-18
-
----
-
 ## Sintaxis
 
 ```ebnf
