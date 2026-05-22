@@ -16,15 +16,19 @@ The `vt` binary SHALL accept an input file path and an optional target platform 
 - **THEN** the CLI SHALL print an error message and exit with a non-zero status code
 
 ### Requirement: CLI executes the lex → parse pipeline
-The `vt` binary SHALL invoke `vt_lexer::tokenize` on the input source, pass the resulting token stream to `vt_parser::parse`, and print the resulting AST in Debug format to stdout.
+The `vt` binary SHALL invoke `vt_lexer::tokenize` on the input source, pass the resulting token stream to `vt_parser::parse`, and output the result to stdout. When the `--debug` flag is active, the output SHALL include structured trace information for each pipeline phase (source code, token list, AST tree). When `--debug` is not active, the CLI SHALL print the Debug representation of the resulting `vt_core::Program`.
 
-#### Scenario: Successful pipeline execution
-- **WHEN** running `vt compile` on a valid `.vt` file
+#### Scenario: Successful pipeline with debug
+- **WHEN** running `vt compile --debug` on a valid `.vt` file
+- **THEN** the CLI SHALL print Phase 1 (source), Phase 2 (tokens), and Phase 3 (AST tree) to stdout and exit with status 0
+
+#### Scenario: Successful pipeline without debug
+- **WHEN** running `vt compile` on a valid `.vt` file without `--debug`
 - **THEN** the CLI SHALL print the Debug representation of the resulting `vt_core::Program` and exit with status 0
 
 #### Scenario: Pipeline stops on parse error
 - **WHEN** running `vt compile` on a `.vt` file with syntax errors
-- **THEN** the CLI SHALL print the parse errors (including line/column and expected tokens) and exit with a non-zero status code
+- **THEN** the CLI SHALL print the parse errors (including line/column and expected tokens) to stderr and exit with a non-zero status code
 
 ### Requirement: Lexer tokenizes all valid tokens correctly
 The `vt-lexer` crate SHALL tokenize a `.vt` source string into a `Vec<Token>` that preserves token order. Every keyword, delimiter, comparator, unit, number literal, string literal, and identifier SHALL be recognized as its correct `Token` variant.
