@@ -972,8 +972,10 @@ name = "vt-cli"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "insta",
  "vt-codegen",
  "vt-core",
+ "vt-lexer",
  "vt-parser",
  "vt-semantics",
 ]
