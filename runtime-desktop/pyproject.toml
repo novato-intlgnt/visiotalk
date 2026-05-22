@@ -1,0 +1,28 @@
+[project]
+name = "visiotalk-runtime"
+version = "0.1.0"
+description = "Runtime de escritorio Linux para VisioTalk"
+requires-python = ">=3.11"
+dependencies = [
+    "opencv-python>=4.9.0",
+    "onnxruntime>=1.17.0",
+    "ultralytics>=8.2.0",
+    "pyttsx3>=2.90",
+]
+
+[project.scripts]
+visiotalk = "visio_engine:main"
+
+[project.optional-dependencies]
+dev = [
+    "ruff>=0.4.0",
+    "mypy>=1.10.0",
+    "pytest>=8.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"

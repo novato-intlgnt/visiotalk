@@ -1,0 +1,14 @@
+[package]
+name = "vt-parser"
+version = "0.1.0"
+edition = "2021"
+description = "LALRPOP-based parser for the VisioTalk DSL"
+build = "build.rs"
+
+[dependencies]
+vt-core = { path = "../vt-core" }
+vt-lexer = { path = "../vt-lexer" }
+lalrpop-util = { workspace = true }
+
+[build-dependencies]
+lalrpop = { workspace = true }

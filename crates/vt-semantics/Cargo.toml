@@ -1,0 +1,9 @@
+[package]
+name = "vt-semantics"
+version = "0.1.0"
+edition = "2021"
+description = "Semantic analyzer for the VisioTalk compiler"
+
+[dependencies]
+vt-core = { path = "../vt-core" }
+ariadne = { workspace = true }

@@ -1,0 +1,16 @@
+[package]
+name = "vt-cli"
+version = "0.1.0"
+edition = "2021"
+description = "Command-line interface for the VisioTalk compiler"
+
+[[bin]]
+name = "vt"
+path = "src/main.rs"
+
+[dependencies]
+vt-core = { path = "../vt-core" }
+vt-parser = { path = "../vt-parser" }
+vt-semantics = { path = "../vt-semantics" }
+vt-codegen = { path = "../vt-codegen" }
+clap = { workspace = true }

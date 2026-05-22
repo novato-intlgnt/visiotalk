@@ -1,0 +1,32 @@
+# Rust
+target/
+*.rs.bk
+*.pdb
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.ruff_cache/
+.mypy_cache/
+
+# React Native / Node
+node_modules/
+
+# IA models (too large for git)
+models/*.onnx
+models/*.tflite
+models/*.pt
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+
+# Dev tool caches
+.codegraph/
+.antigravitycli/

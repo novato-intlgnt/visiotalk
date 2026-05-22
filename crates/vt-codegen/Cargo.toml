@@ -1,0 +1,9 @@
+[package]
+name = "vt-codegen"
+version = "0.1.0"
+edition = "2021"
+description = "Code generation backends for the VisioTalk compiler"
+
+[dependencies]
+vt-core = { path = "../vt-core" }
+askama = { workspace = true }

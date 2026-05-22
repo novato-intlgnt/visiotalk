@@ -1,0 +1,9 @@
+[package]
+name = "vt-core"
+version = "0.1.0"
+edition = "2021"
+description = "AST definitions and shared types for the VisioTalk compiler"
+
+[dependencies]
+serde = { workspace = true }
+serde_json = { workspace = true }

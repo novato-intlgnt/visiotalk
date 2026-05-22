@@ -1,0 +1,8 @@
+[package]
+name = "vt-lexer"
+version = "0.1.0"
+edition = "2021"
+description = "Token definitions and lexer for the VisioTalk DSL"
+
+[dependencies]
+logos = { workspace = true }
